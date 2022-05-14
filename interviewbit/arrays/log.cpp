@@ -7,7 +7,6 @@ void swap(lli *a, lli *b)
 {
     lli t = *b;
     *b = *a;
-    
     *a = t;
 }
 // code for implementing binary search
@@ -35,38 +34,13 @@ int compare(lli a, lli b) { return a > b; }
 #define WHILE(n) while (n--)
 void solve()
 {
-    lli n;
-    cin >> n;
-    vector<lli> a(n);
-    for (auto &itr : a)
-        cin >> itr;
-    // fix the middle one
-    vector<lli> suffix(n + 1);
-    suffix[n] = 0;
-    for (auto i = n - 1; i >= 0; i--)
-    {
-        suffix[i] = MAX(suffix[i + 1], a[i]);
-    }
-    set<lli> s;
-    s.insert(a[0]);
-    lli ans = LONG_LONG_MIN;
-    for (int i = 0; i < n - 1; i++)
-    {
-        if (suffix[i + 1] > a[i])
-        {
-            auto itr = s.lower_bound(a[i]);
-            --itr;
-            ans = MAX(ans, *itr + a[i] + suffix[i + 1]);
-            s.insert(a[i]);
-                }
-    }
-    cout << ans << endl;
+    
 }
 int main()
 {
     needforspeed;
     lli t = 1;
-    // cin >> t;
+    cin >> t;
 
     while (t--)
     {
