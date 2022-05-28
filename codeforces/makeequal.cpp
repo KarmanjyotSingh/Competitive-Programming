@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -35,60 +34,34 @@ int compare(lli a, lli b) { return a > b; }
 #define WHILE(n) while (n--)
 void solve()
 {
+    lli n;
+    char ch;
+    cin >> n >> ch;
     string s;
     cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
+    if (count(all(s), ch) == n)
     {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
-        else
-            pref.push_back(cnt);
+        cout << 0 << endl;
+        return;
     }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
-    {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
-    }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
-    {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
 
-        for (auto i = 0; i <= mid; i++)
+    for (int i = 1; i <= n; i++)
+    {
+        bool ok = true;
+        for (int j = i; j <= n; j += i)
         {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
+            ok = ok & (s[j - 1] == ch);
         }
-
-        if (possible)
+        if (ok)
         {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
+            cout << 1 << endl
+                 << i << endl;
+            return;
         }
     }
-    cout << ans << endl;
+
+    cout << 2 << endl
+         << n - 1 << " " << n << endl;
 }
 int main()
 {

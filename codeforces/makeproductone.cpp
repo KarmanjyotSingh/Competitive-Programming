@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -35,58 +34,33 @@ int compare(lli a, lli b) { return a > b; }
 #define WHILE(n) while (n--)
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
+    lli n;
+    cin >> n;
+    lli pos = 0, neg = 0, zer = 0, x;
+    vector<lli> a(n);
+    lli max_neg = 1;
+    for (auto i = 0; i < n; i++)
     {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
+        cin >> x;
+        a[i] = x;
+        if (x == 0)
+            zer++;
+        else if (x > 0)
+            pos++;
         else
-            pref.push_back(cnt);
+        {
+            neg++;
+            max_neg = MAX(max_neg, x);
+        }
     }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
+    lli ans = 0;
+    for (auto i = 0; i < n; i++)
     {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
+        ans += MIN(ABS(a[i] - 1), ABS(a[i] + 1));
     }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
+    if (neg % 2 == 1 && zer == 0)
     {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
-
-        for (auto i = 0; i <= mid; i++)
-        {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
-        }
-
-        if (possible)
-        {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
-        }
+        ans += 2;
     }
     cout << ans << endl;
 }
@@ -94,7 +68,7 @@ int main()
 {
     needforspeed;
     lli t = 1;
-    cin >> t;
+    // cin >> t;
 
     while (t--)
     {

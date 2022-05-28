@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -35,60 +34,33 @@ int compare(lli a, lli b) { return a > b; }
 #define WHILE(n) while (n--)
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
+    lli n;
+    cin >> n;
+    lli a[n];
+    lli odd = 0;
+    for (auto i = 0; i < n; i++)
     {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
-        else
-            pref.push_back(cnt);
+        cin >> a[i];
+        if (a[i] % 2)
+            odd++;
     }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
+    lli eve = n - odd;
+    if (ABD(eve, odd) > 1)
     {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
+        // NO;
+        cout << -1 << endl;
+        return;
     }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
+    if (eve == odd)
     {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
-
-        for (auto i = 0; i <= mid; i++)
-        {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
-        }
-
-        if (possible)
-        {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
-        }
+        // n is even and has equal number of odd and even
     }
-    cout << ans << endl;
+    else if (eve > odd)
+    {
+    }
+    else
+    {
+    }
 }
 int main()
 {

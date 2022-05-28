@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -33,69 +32,56 @@ int compare(lli a, lli b) { return a > b; }
     for (auto &itr : a) \
         cin >> itr;
 #define WHILE(n) while (n--)
+lli n, k;
+bool good(vector<lli> &a, lli m)
+{
+    // check if the work could be be done inn k sub segments
+    lli num = 0, sum = 0;
+    for (int i = 0; i < a.size(); i++)
+    {
+        if (a[i] > m)
+            return false;
+
+        if (sum + a[i] > m)
+        {
+            sum = a[i];
+            num++;
+        }
+        else
+            sum += a[i];
+    }
+    num++;
+    return num <= k;
+}
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
-    {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
-        else
-            pref.push_back(cnt);
-    }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
-    {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
-    }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
-    {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
+    cin >> n >> k;
 
-        for (auto i = 0; i <= mid; i++)
-        {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
-        }
-
-        if (possible)
-        {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
-        }
+    lli l = 0, r = 0;
+    vector<lli> a(n);
+    for (auto &itr : a)
+    {
+        cin >> itr;
+        // r += itr;
     }
-    cout << ans << endl;
+    for (auto itr : a)
+        r += itr;
+    while (l + 1 < r)
+    {
+        lli m = l + (r - l) / 2;
+        if (good(a, m))
+            r = m;
+        else
+            l = m;
+        // cout << m << " " << l << " " << r << endl;
+    }
+    cout << r << endl;
 }
 int main()
 {
     needforspeed;
     lli t = 1;
-    cin >> t;
-
+    // cin >> t;
     while (t--)
     {
         solve();

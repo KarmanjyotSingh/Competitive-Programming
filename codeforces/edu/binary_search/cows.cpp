@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -33,68 +32,45 @@ int compare(lli a, lli b) { return a > b; }
     for (auto &itr : a) \
         cin >> itr;
 #define WHILE(n) while (n--)
+lli k;
+bool good(vector<lli> &a, lli m)
+{
+    // count the number of cows that could be placed with distance equal to m
+    lli cows = 1;
+    lli prev = a[0];
+    for (auto i = 1; i < a.size(); i++)
+    {
+        if (a[i] - prev >= m)
+        {
+            prev = a[i];
+            cows += 1;
+        }
+    }
+    return cows >= k;
+}
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
+    lli n;
+    cin >> n >> k;
+    vector<lli> a(n);
+    input(a);
+    lli r = a[n - 1], l = 0;
+    while (l + 1 < r)
     {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
+        lli mid = l + (r - l) / 2;
+        // cout << mid << " " << l << " " << r << endl;
+        if (good(a, mid))
+            l = mid;
         else
-            pref.push_back(cnt);
+            r = mid;
     }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
-    {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
-    }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
-    {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
-
-        for (auto i = 0; i <= mid; i++)
-        {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
-        }
-
-        if (possible)
-        {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
-        }
-    }
-    cout << ans << endl;
+    cout << l << endl;
 }
 int main()
 {
     needforspeed;
     lli t = 1;
-    cin >> t;
+    // cin >> t;
 
     while (t--)
     {

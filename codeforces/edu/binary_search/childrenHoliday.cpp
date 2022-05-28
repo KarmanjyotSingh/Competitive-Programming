@@ -23,6 +23,7 @@ int main()
     {
         return 0;
     }
+    vector<pair<lli, lli>> pa;
     lli mx = LONG_LONG_MIN;
     for (auto i = 0; i < n; i++)
     {
@@ -32,10 +33,11 @@ int main()
         z.push_back(b);
         y.push_back(c);
         d.push_back(a * b + c);
+        pa.push_back({a * b + c, i});
         mx = max(mx, a * b + c);
     }
     lli l = 0, r = 1e10;
-
+    // sort(all(pa));
     while (l + 1 < r)
     {
         lli mid = l + (r - l) / 2;
@@ -45,11 +47,6 @@ int main()
             l = mid;
     }
     cout << r << endl;
-
-    for (int i = 0; i < n; i++)
-    {
-        cout << r*(d[i]/t[i])<< " ";
-    }
-
+   
     return 0;
 }

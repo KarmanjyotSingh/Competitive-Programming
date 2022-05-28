@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -35,67 +34,44 @@ int compare(lli a, lli b) { return a > b; }
 #define WHILE(n) while (n--)
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
+    lli n;
+    cin >> n;
+    lli mx1 = LONG_LONG_MIN, mx2 = LONG_LONG_MIN;
+    vector<lli> a(n);
+    for (auto &itr : a)
     {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
-        else
-            pref.push_back(cnt);
+        cin >> itr;
+        mx1 = MAX(mx1, itr);
     }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
+    lli m;
+    cin >> m;
+    vector<lli> b(m);
+    for (auto &itr : b)
     {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
+        cin >> itr;
+        mx2 = MAX(mx2, itr);
     }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
+    if (mx1 > mx2)
     {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
-
-        for (auto i = 0; i <= mid; i++)
-        {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
-        }
-
-        if (possible)
-        {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
-        }
+        cout << "Alice" << endl
+             << "Alice" << endl;
     }
-    cout << ans << endl;
+    else if (mx1 < mx2)
+    {
+        cout << "Bob" << endl
+             << "Bob" << endl;
+    }
+    else
+    {
+        cout << "Alice" << endl;
+        cout << "Bob" << endl;
+    }
 }
 int main()
 {
     needforspeed;
     lli t = 1;
     cin >> t;
-
     while (t--)
     {
         solve();

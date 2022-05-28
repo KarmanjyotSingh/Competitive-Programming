@@ -8,7 +8,6 @@ void swap(lli *a, lli *b)
     lli t = *b;
     *b = *a;
     *a = t;
-    
 }
 // code for implementing binary search
 /*lli l = -1, r = size;while (r > l + 1){ lli mid = l + (r - l) / 2; if (array[mid] <= val)l = mid;elser = mid;}*/
@@ -33,62 +32,51 @@ int compare(lli a, lli b) { return a > b; }
     for (auto &itr : a) \
         cin >> itr;
 #define WHILE(n) while (n--)
+lli n, m, d;
+map<pair<lli, lli>, lli> mp;
+bool check(lli m, vector<vector<lli>> &graph)
+{
+    // need to find till only d levels in bfs
+    // check if we can find a max >=m
+    queue<lli> q;
+    q.push(1);
+    // do bfs for d levels
+    lli level = 0;
+    lli mxcost = LONG_LONG_MIN;
+    while (!q.empty())
+    {
+        lli curr = q.front();
+        q.pop();
+        for (auto itr : graph[curr])
+        {
+            q.push(itr);
+        }
+        if (curr == n && mxcost <= m)
+            return true;
+    }
+}
 void solve()
 {
-    string s;
-    cin >> s;
-    vector<lli> pref, suff;
-    lli cnt = 0;
-    for (auto itr : s)
-    {
-        int x = itr - '0';
-        if (!x)
-            cnt++;
-        else
-            pref.push_back(cnt);
-    }
-    pref.push_back(cnt);
-    cnt = 0;
-    for (int i = s.length() - 1; i >= 0; i--)
-    {
-        int x = s[i] - '0';
-        if (!x)
-            cnt++;
-        else
-            suff.push_back(cnt);
-    }
-    suff.push_back(cnt);
-    lli zero = count(all(s), '0');
-    lli one = s.length() - zero;
-    lli left = -1, right = s.length();
-    lli ans = right;
-    while (left <= right)
-    {
-        lli mid = left + (right - left) / 2;
-        bool possible = false;
+    cin >> n >> m >> d;
 
-        for (auto i = 0; i <= mid; i++)
-        {
-            lli left = zero;
-            left = left - (pref[i] + suff[mid - i]);
-            if (left <= mid)
-            {
-                possible = true;
-                break;
-            }
-        }
-
-        if (possible)
-        {
-            ans = MIN(mid, ans);
-            right = mid - 1;
-        }
-        else
-        {
-            left = mid + 1;
-        }
+    vector<vector<lli>> graph(n + 1);
+    for (auto itr = 0; itr < m; itr++)
+    {
+        lli u, v, w;
+        cin >> u >> v >> w;
+        graph[u].pb(v);
+        mp[{u, v}] = w;
     }
-    cout << ans << endl;
+    lli l = 0, r = n;
+    while (l + 1 < r)
+    {
+        lli mid = l + (r - l) / 2;
+        if (check(mid, graph))
+            r = mid;
+        else
+            l = mid;
+    }
+    cout << r << endl;
 }
 int main()
 {
